@@ -25,7 +25,7 @@ jobs:
         run: pip install -r requirements.txt
         
       - name: Exeсute Notebook
-        run: jupyter nbconvert --execute --to html DZ1.ipynb 
+        run: jupyter-nbconvert --execute --to html DZ1.ipynb 
         
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0
