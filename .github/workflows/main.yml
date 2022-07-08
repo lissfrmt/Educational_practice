@@ -22,9 +22,7 @@ jobs:
           python-version: '3.7'
     
       - name: Install Dependencies
-        run: sudo pip install numpy
-        run: sudo pip install matplotlib
-        run: sudo pip install sklearn
+        run: pip install -r requirements.txt
         
       - name: Exeсute Notebook
         run: jupyter nbconvert --execute --to html DZ1.ipynb 
