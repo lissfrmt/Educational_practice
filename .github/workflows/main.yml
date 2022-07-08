@@ -1,0 +1,36 @@
+name: Jupyter
+
+on:
+ # push:
+  #  branches: [ "main" ]
+ # pull_request:
+  #  branches: [ "main" ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.0.0
+        with:
+          cache: pip
+          python-version: '3.7'
+    
+      - name: Install Dependencies
+        run: sudo pip install numpy
+        run: sudo pip install matplotlib
+        run: sudo pip install sklearn
+        
+      - name: Exeсute Notebook
+        run: jupyter nbconvert --execute --to html DZ1.ipynb 
+        
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: Artifact
+          path: DZ1.html
