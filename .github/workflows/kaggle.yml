@@ -1,0 +1,43 @@
+name: Kaggle
+on:
+  workflow_dispatch:
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.0.0
+        with:
+          cache: pip
+          python-version: '3.7'
+          
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+      
+      - name: Login to Kaggle
+        run: |
+              echo "KAGGLE_USERNAME=${{ secrets.KAGGLE_USERNAME }}" >> $GITHUB_ENV
+              echo "KAGGLE_KEY=${{ secrets.KAGGLE_KEY }}" >> $GITHUB_ENV
+              
+      - name: Download Dataset
+        run: kaggle competitions download -c titanic -p ./kaggle/input/
+        
+      - name: Unzip Dataset 
+        run: unzip ./kaggle/input/titanic.zip -d ./kaggle/input
+      
+      - name: Exeсute Notebook
+        run: jupyter-execute notebook.ipynb
+        
+      - name: Submit Predictions to Kaggle
+        run: kaggle competitions submit -c titanic -f ./kaggle/output/submission.csv -m "Submission"
+          
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: Artifact
+          path: ./kaggle/output/submission.csv
