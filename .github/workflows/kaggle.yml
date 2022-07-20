@@ -34,10 +34,10 @@ jobs:
         run: jupyter-execute notebook.ipynb
         
       - name: Submit Predictions to Kaggle
-        run: kaggle competitions submit -c titanic -f ./kaggle/output/submission.csv -m "Submission"
+        run: kaggle competitions submit -c titanic -f ./submission.csv -m "Submission"
           
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0
         with:
           name: Artifact
-          path: ./kaggle/output/submission.csv
+          path: ./submission.csv
